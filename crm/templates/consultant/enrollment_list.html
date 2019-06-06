@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% load my_tags %}
+{% block content %}
+    <div>
+        <div class="panel panel-default" style="margin: 15px">
+            <div class="panel-heading">
+                <h3 class="panel-title">客户报名表</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <form action="" class="form-inline pull-right">
+                        {#                    {% csrf_token %}#}
+                        <input type="text" name=query class="form-control">
+                        <button class="btn btn-sm btn-primary">搜索</button>
+                    </form>
+                </div>
+
+
+                <form action="" class="form-inline" method="post">
+                    {% csrf_token %}
+
+                    <select name="action" id="" class="form-control">
+
+                        <option value="multi_del">批量删除</option>
+                    </select>
+                    <button class="btn btn-sm  btn-primary">提交</button>
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>选择</th>
+                            <th>客户名称</th>
+                            <th>所报班级</th>
+                            <th>校区</th>
+                            <th>报名原因</th>
+                            <th>期望</th>
+                            <th>报名日期</th>
+                            <th>审核状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for enrollment in all_enrollment %}
+                            <tr>
+                                <td><input type="checkbox" value="{{ enrollment.pk }}" name="ids"></td>
+                                <td>{{ enrollment.customer }}</td>
+                                <td>{{ enrollment.enrolment_class }}</td>
+                                <td>{{ enrollment.school }}</td>
+                                <td>{{ enrollment.why_us }}</td>
+                                <td>{{ enrollment.your_expectation }}</td>
+                                <td>{{ enrollment.enrolled_date }}</td>
+                                <td>{{ enrollment.contract_approved }}</td>
+
+
+                                <td><a href="{% reverse_url request 'edit_enrollment' enrollment.pk %}"><i
+                                        class="fa fa-pencil-square-o"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        {{ page_html }}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
